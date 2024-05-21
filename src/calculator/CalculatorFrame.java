@@ -8,6 +8,7 @@ import calculator.SOLID.Add;
 import calculator.SOLID.Divide;
 import calculator.SOLID.Interfaceoperaciones;
 import calculator.SOLID.Multiply;
+import calculator.SOLID.Potency;
 import calculator.SOLID.Subtract;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -285,8 +286,20 @@ public class CalculatorFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_dividebuttonActionPerformed
 
     private void potencybuttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_potencybuttonActionPerformed
-        // TODO add your handling code here:
-        JOptionPane.showMessageDialog(null, "Not Implemented", "Error", JOptionPane.ERROR_MESSAGE);
+         try {
+            Calculator calculator = new Calculator();
+            Interfaceoperaciones interop = new Potency();
+            double number1 = Double.parseDouble(number1textfield.getText());
+            double number2 = Double.parseDouble(number2textfield.getText());
+            double result = calculator.calculo(interop, number1, number2);
+            
+            this.history.addOperation(new Operation(number1, number2, "^", result));
+            
+            jTextField3.setText("" + result);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Error", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        
     }//GEN-LAST:event_potencybuttonActionPerformed
 
     private void clearbuttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearbuttonActionPerformed
