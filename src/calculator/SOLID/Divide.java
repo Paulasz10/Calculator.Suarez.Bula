@@ -8,7 +8,7 @@ public class Divide implements Interfaceoperaciones{
 
     @Override
     public double calculo(double a, double b) {
-       return a-b;
+       return a/b;
     }
     
 }
