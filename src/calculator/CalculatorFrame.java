@@ -10,7 +10,7 @@ import calculator.SOLID.Interfaceoperaciones;
 import calculator.SOLID.Multiply;
 import calculator.SOLID.Potency;
 import calculator.SOLID.Subtract;
-import calculator.controllers.Main;
+import Main.Main;
 import calculator.controllers.Operationscontrollers;
 import calculator.controllers.Response;
 import calculator.controllers.Updatecontroller;
@@ -60,7 +60,7 @@ public class CalculatorFrame extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         updatelist = new javax.swing.JList<>();
-        jTextField3 = new javax.swing.JTextField();
+        resulttextfield = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -140,9 +140,9 @@ public class CalculatorFrame extends javax.swing.JFrame {
         updatelist.setEnabled(false);
         jScrollPane1.setViewportView(updatelist);
 
-        jTextField3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jTextField3.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jTextField3.setEnabled(false);
+        resulttextfield.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        resulttextfield.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        resulttextfield.setEnabled(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -161,7 +161,7 @@ public class CalculatorFrame extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(number1textfield)
                             .addComponent(number2textfield)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE))
+                            .addComponent(resulttextfield, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -201,7 +201,7 @@ public class CalculatorFrame extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(resulttextfield, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(addbutton)
@@ -223,20 +223,20 @@ public class CalculatorFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void addbuttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addbuttonActionPerformed
-        // TODO add your handling code here:
+        double result = 0;
         try {
             Calculator calculator = new Calculator();
             Interfaceoperaciones interop = new Add();
             double number1 = Double.parseDouble(number1textfield.getText());
             double number2 = Double.parseDouble(number2textfield.getText());
-            double result = calculator.calculo(interop, number1, number2);
+            result = calculator.calculo(interop, number1, number2);
             this.history.addOperation(new Operation(number1, number2, "+", result));
-            jTextField3.setText("" + result);
-            Response response = Operationscontrollers.operations(number1textfield.getText(), number2textfield.getText());
+            resulttextfield.setText("" + result);
+            Response response = Operationscontrollers.operations(number1textfield.getText(), number2textfield.getText(), result, resulttextfield);//Se invoca controlador
             JOptionPane.showMessageDialog(null, response.getMessage(), "Response Message", JOptionPane.INFORMATION_MESSAGE);
 
         } catch (Exception ex) {
-            Response response = Operationscontrollers.operations(number1textfield.getText(), number2textfield.getText());
+            Response response = Operationscontrollers.operations(number1textfield.getText(), number2textfield.getText(), result, resulttextfield);
             if (response.getStatus() >= 500) {
                 JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.ERROR_MESSAGE);
             } else if (response.getStatus() >= 400) {
@@ -248,20 +248,20 @@ public class CalculatorFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_addbuttonActionPerformed
 
     private void subtractbuttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subtractbuttonActionPerformed
-        // TODO add your handling code here:
+        double result = 0;
         try {
             Calculator calculator = new Calculator();
             Interfaceoperaciones interop = new Subtract();
             double number1 = Double.parseDouble(number1textfield.getText());
             double number2 = Double.parseDouble(number2textfield.getText());
-            double result = calculator.calculo(interop, number1, number2);
+            result = calculator.calculo(interop, number1, number2);
             this.history.addOperation(new Operation(number1, number2, "-", result));
-            Response response = Operationscontrollers.operations(number1textfield.getText(), number2textfield.getText());
+            resulttextfield.setText("" + result);
+            Response response = Operationscontrollers.operations(number1textfield.getText(), number2textfield.getText(), result, resulttextfield);//Se invoca controlador
             JOptionPane.showMessageDialog(null, response.getMessage(), "Response Message", JOptionPane.INFORMATION_MESSAGE);
 
-            jTextField3.setText("" + result);
         } catch (Exception ex) {
-            Response response = Operationscontrollers.operations(number1textfield.getText(), number2textfield.getText());
+            Response response = Operationscontrollers.operations(number1textfield.getText(), number2textfield.getText(), result, resulttextfield);
             if (response.getStatus() >= 500) {
                 JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.ERROR_MESSAGE);
             } else if (response.getStatus() >= 400) {
@@ -273,21 +273,20 @@ public class CalculatorFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_subtractbuttonActionPerformed
 
     private void multiplybuttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_multiplybuttonActionPerformed
-        // TODO add your handling code here:
+        double result = 0;
         try {
             Calculator calculator = new Calculator();
             Interfaceoperaciones interop = new Multiply();
             double number1 = Double.parseDouble(number1textfield.getText());
             double number2 = Double.parseDouble(number2textfield.getText());
-            double result = calculator.calculo(interop, number1, number2);
-
+            result = calculator.calculo(interop, number1, number2);
             this.history.addOperation(new Operation(number1, number2, "*", result));
-            jTextField3.setText("" + result);
-            Response response = Operationscontrollers.operations(number1textfield.getText(), number2textfield.getText());
+            resulttextfield.setText("" + result);
+            Response response = Operationscontrollers.operations(number1textfield.getText(), number2textfield.getText(), result, resulttextfield);//Se invoca controlador
             JOptionPane.showMessageDialog(null, response.getMessage(), "Response Message", JOptionPane.INFORMATION_MESSAGE);
 
         } catch (Exception ex) {
-            Response response = Operationscontrollers.operations(number1textfield.getText(), number2textfield.getText());
+            Response response = Operationscontrollers.operations(number1textfield.getText(), number2textfield.getText(), result, resulttextfield);
             if (response.getStatus() >= 500) {
                 JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.ERROR_MESSAGE);
             } else if (response.getStatus() >= 400) {
@@ -299,23 +298,23 @@ public class CalculatorFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_multiplybuttonActionPerformed
 
     private void dividebuttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dividebuttonActionPerformed
-        // TODO add your handling code here:
+        double result = 0;
         try {
             Calculator calculator = new Calculator();
             Interfaceoperaciones interop = new Divide();
             double number1 = Double.parseDouble(number1textfield.getText());
             double number2 = Double.parseDouble(number2textfield.getText());
-            double result = calculator.calculo(interop, number1, number2);
+            result = calculator.calculo(interop, number1, number2);
             if (number2 == 0) {
                 throw new ArithmeticException();
             }
             this.history.addOperation(new Operation(number1, number2, "/", result));
-            jTextField3.setText("" + result);
-            Response response = Operationscontrollers.divide(number1textfield.getText(), number2textfield.getText());
+            resulttextfield.setText("" + result);
+            Response response = Operationscontrollers.divide(number1textfield.getText(), number2textfield.getText(), result, resulttextfield);//Se invoca controlador
             JOptionPane.showMessageDialog(null, response.getMessage(), "Response Message", JOptionPane.INFORMATION_MESSAGE);
 
         } catch (Exception ex) {
-            Response response = Operationscontrollers.divide(number1textfield.getText(), number2textfield.getText());
+            Response response = Operationscontrollers.divide(number1textfield.getText(), number2textfield.getText(), result, resulttextfield);
             if (response.getStatus() >= 500) {
                 JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.ERROR_MESSAGE);
             } else if (response.getStatus() >= 400) {
@@ -327,25 +326,25 @@ public class CalculatorFrame extends javax.swing.JFrame {
         try {
             double number2prueba = Double.parseDouble(number2textfield.getText());
         } catch (ArithmeticException ex) {
-            Response response = Operationscontrollers.divide(number1textfield.getText(), number2textfield.getText());
+            Response response = Operationscontrollers.divide(number1textfield.getText(), number2textfield.getText(), result, resulttextfield);
         }
-
     }//GEN-LAST:event_dividebuttonActionPerformed
 
     private void potencybuttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_potencybuttonActionPerformed
+        double result = 0;
         try {
             Calculator calculator = new Calculator();
             Interfaceoperaciones interop = new Potency();
             double number1 = Double.parseDouble(number1textfield.getText());
             double number2 = Double.parseDouble(number2textfield.getText());
-            double result = calculator.calculo(interop, number1, number2);
+            result = calculator.calculo(interop, number1, number2);
             this.history.addOperation(new Operation(number1, number2, "^", result));
-            jTextField3.setText("" + result);
-            Response response = Operationscontrollers.operations(number1textfield.getText(), number2textfield.getText());
+            resulttextfield.setText("" + result);
+            Response response = Operationscontrollers.operations(number1textfield.getText(), number2textfield.getText(), result, resulttextfield);//Se invoca controlador
             JOptionPane.showMessageDialog(null, response.getMessage(), "Response Message", JOptionPane.INFORMATION_MESSAGE);
 
         } catch (Exception ex) {
-            Response response = Operationscontrollers.operations(number1textfield.getText(), number2textfield.getText());
+            Response response = Operationscontrollers.operations(number1textfield.getText(), number2textfield.getText(), result, resulttextfield);
             if (response.getStatus() >= 500) {
                 JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.ERROR_MESSAGE);
             } else if (response.getStatus() >= 400) {
@@ -361,7 +360,7 @@ public class CalculatorFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         number1textfield.setText("");
         number2textfield.setText("");
-        jTextField3.setText("");
+        resulttextfield.setText("");
     }//GEN-LAST:event_clearbuttonActionPerformed
 
     private void updatebuttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updatebuttonActionPerformed
@@ -370,7 +369,7 @@ public class CalculatorFrame extends javax.swing.JFrame {
             Response response = Updatecontroller.updateempty();
             JOptionPane.showMessageDialog(null, response.getMessage(), "Response Message", JOptionPane.INFORMATION_MESSAGE);
         } else {//Se invoca al controlador para dar respuesta de ejección exitosa
-            Response response = Updatecontroller.updatecontroller(operationHistory, updatelist);
+            Response response = Updatecontroller.updatecontroller(number1textfield.getText(), number2textfield.getText(), operationHistory, updatelist);
             JOptionPane.showMessageDialog(null, response.getMessage(), "Response Message", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_updatebuttonActionPerformed
@@ -415,11 +414,11 @@ public class CalculatorFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JButton multiplybutton;
     private javax.swing.JTextField number1textfield;
     private javax.swing.JTextField number2textfield;
     private javax.swing.JButton potencybutton;
+    private javax.swing.JTextField resulttextfield;
     private javax.swing.JButton subtractbutton;
     private javax.swing.JButton updatebutton;
     private javax.swing.JList<String> updatelist;

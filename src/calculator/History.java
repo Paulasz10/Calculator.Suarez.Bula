@@ -13,7 +13,7 @@ public class History {
     public History() {
         this.operations = new ArrayList<>();
     }
-    
+
     public void addOperation(Operation operation) {
         this.operations.add(operation);
     }
@@ -21,5 +21,5 @@ public class History {
     public ArrayList<Operation> getOperations() {
         return operations;
     }
-    
+
 }

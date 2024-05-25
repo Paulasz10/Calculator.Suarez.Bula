@@ -18,9 +18,25 @@ public class Operation {
         this.result = result;
     }
 
+    public double getResult() {
+        return result;
+    }
+
+    public void setResult(double result) {
+        this.result = result;
+    }
+
+    public double getNumber1() {
+        return number1;
+    }
+
+    public double getNumber2() {
+        return number2;
+    }
+
     @Override
     public String toString() {
         return number1 + " " + operator + " " + number2 + " = " + result;
     }
-    
+
 }
