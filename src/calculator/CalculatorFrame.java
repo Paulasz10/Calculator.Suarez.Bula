@@ -365,22 +365,14 @@ public class CalculatorFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_clearbuttonActionPerformed
 
     private void updatebuttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updatebuttonActionPerformed
-        // TODO add your handling code here:
         ArrayList<Operation> operationHistory = this.history.getOperations();
-        if (history.getOperations().isEmpty()) {
+        if (history.getOperations().isEmpty()) {//Se invoca al controlador si la lista está vacía
             Response response = Updatecontroller.updateempty();
-            if (response.getStatus() >= 500) {
-                JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.ERROR_MESSAGE);
-            } else if (response.getStatus() >= 400) {
-                JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.WARNING_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(null, response.getMessage(), "Response Message", JOptionPane.INFORMATION_MESSAGE);
-            }
+            JOptionPane.showMessageDialog(null, response.getMessage(), "Response Message", JOptionPane.INFORMATION_MESSAGE);
+        } else {//Se invoca al controlador para dar respuesta de ejección exitosa
+            Response response = Updatecontroller.updatecontroller(operationHistory, updatelist);
+            JOptionPane.showMessageDialog(null, response.getMessage(), "Response Message", JOptionPane.INFORMATION_MESSAGE);
         }
-        DefaultListModel model = new DefaultListModel();
-        model.addAll(operationHistory);
-        updatelist.setModel(model);
-        Response response = Updatecontroller.updatecontroller(operationHistory);
     }//GEN-LAST:event_updatebuttonActionPerformed
 
     /**
@@ -411,7 +403,7 @@ public class CalculatorFrame extends javax.swing.JFrame {
         //</editor-fold>
         //</editor-fold>
         /* Create and display the form */
-       
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
